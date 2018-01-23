@@ -2,57 +2,64 @@ pragma solidity ^0.4.18;
 
 import "./library/IterableMap.sol";
 
-/// @title SubscriptionContract - Allows traders(receivers) to subscribe to technical analysts(callers) calls
-/// @author Norf Lipsum - <norf@sygplatform.io>
+/**
+ * @title SubscriptionContract - Allows traders(receivers) to subscribe to technical analysts(callers) calls.\
+ * @author Norf Lipsum - <norf@sygplatform.io>
+ */
 contract SubscriptionContract {
 
   using IterableMap for IterableMap.AddressUInt;
 
-  /*
-   *  Events
-   */
+  //Events
   event Subscription(address indexed caller, address indexed receiver, uint indexed calls);
 
-  /*
-   *  Storage
-   */
+  //Storage
   mapping(address => IterableMap.AddressUInt) private subscriptionTable;
 
-  /*
-   * Public functions
+  //Public Functions
+  
+  /**
+   * @notice Allows `receiver` to subscribe to a `caller` for a number of `calls`.
+   * @dev Current function replaces the number of calls if the receiver is already exists.
+   * @dev Subscription fee calculations to be added when Syg Token is finished.
+   * @param caller The address of the caller
+   * @param receiver The address of the receiver
+   * @param calls Number of subscription calls
    */
-
-   /// @dev Allows receiver subscription to a specified caller for a number of calls.
-   /// @param caller Address of the caller
-   /// @param receiver Address of the receiver
-   /// @param calls number of calls to subscribe
   function addSubscription(address caller, address receiver, uint calls) public {
     IterableMap.AddressUInt storage subscriptions = subscriptionTable[caller];
     subscriptions.insert(receiver, calls);
     Subscription(caller, receiver, calls);
   }
 
-   /// @dev Allows to return the total number of subscribers of a specified caller.
-   /// @param caller Address of the caller
-   /// @return Returns the total number of subscribers
+   /**
+    * @notice Allows to count and return the total number of subscribers of a `caller`.
+    * @dev This function is useful for clients in particular to loops and iterations.
+    * @param caller Address of the caller
+    * @return Returns the total number of subscribers
+    */
   function countSubscriptions(address caller) public view returns (uint) {
     IterableMap.AddressUInt storage subscriptions = subscriptionTable[caller];
     return subscriptions.size();
   }
 
-   /// @dev Allows to check if a receiver has subscribed to a specified caller
-   /// @param caller Address of the caller
-   /// @param receiver Address of the receiver
-   /// @return Returns whether the receiver has subscribed to caller
+  /**
+   * @notice Allows to check if a `receiver` has subscribed to a `caller`.
+   * @param caller Address of the caller
+   * @param receiver The address of the receiver
+   * @return Returns whether the `receiver` has subscribed to `caller`
+   */
   function hasSubscribed(address caller, address receiver) public view returns(bool) {
     IterableMap.AddressUInt storage subscriptions = subscriptionTable[caller];
     return subscriptions.contains(receiver);
   }
 
-   /// @dev Allows to return the metadata of a receiver's subscription for a specified caller.
-   /// @param caller Address of the caller
-   /// @param receiver Address of the receiver
-   /// @return Returns address of the caller, address of the receiver and the total number of calls
+   /**
+   * @notice Allows to return the metadata of a `receiver`'s subscription to a `caller`.
+   * @param caller Address of the caller
+   * @param receiver The address of the receiver
+   * @return Returns the address of the caller, address of the receiver and the subscription calls
+   */
   function getSubscription(address caller, address receiver) public view returns(address, address, uint) {
     require(_callerExists(caller));
     IterableMap.AddressUInt storage subscriptions = subscriptionTable[caller];
@@ -63,10 +70,13 @@ contract SubscriptionContract {
     return(caller, receiver, calls);
   }
 
-   /// @dev Allows to return the metadata of a subscription for a specified caller at a given index.
-   /// @param caller Address of the caller
-   /// @param idx Index of the subscription
-   /// @return Returns address of the caller, address of the receiver and the total number of calls
+  /**
+   * @notice Allows to return the metadata of a `receiver`'s subscription to a `caller` at a given index `idx`.
+   * @dev This function is useful for clients in particular to loops and iterations.
+   * @param caller Address of the caller
+   * @param idx Index of the subscription
+   * @return Returns the address of the caller, address of the receiver and the subscription calls
+   */
   function getSubscriptionByIndex(address caller, uint idx) public view returns(address, address, uint) {
     require(_callerExists(caller));
     IterableMap.AddressUInt storage subscriptions = subscriptionTable[caller];
@@ -78,9 +88,7 @@ contract SubscriptionContract {
     return (caller, receiver, calls);
   }
   
-  /*
-   * Internal Functions
-   */
+   // Internal Functions
   function _callerExists(address caller) internal view returns(bool) {
     return subscriptionTable[caller].size() > 0;
   }
