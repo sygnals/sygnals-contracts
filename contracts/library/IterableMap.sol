@@ -13,25 +13,25 @@ library IterableMap {
   }
 
   function insert(AddressUInt storage self, address key, uint value) internal returns(bool replaced) {
-    Entry storage e = self.data[key];
-    e.value = value;
-    if (e.keyIndex > 0) {
+    Entry storage entry = self.data[key];
+    entry.value = value;
+    if (entry.keyIndex > 0) {
       return true;
     }
 
-    e.keyIndex = ++self.keys.length;
-    self.keys[e.keyIndex - 1] = key;
+    entry.keyIndex = ++self.keys.length;
+    self.keys[entry.keyIndex - 1] = key;
     return false;
   }
 
   function remove(AddressUInt storage self, address key) internal returns(bool success) {
-    Entry storage e = self.data[key];
-    if (e.keyIndex == 0)
+    Entry storage entry = self.data[key];
+    if (entry.keyIndex == 0)
       return false;
 
-    if (e.keyIndex <= self.keys.length) {
-      self.data[self.keys[self.keys.length - 1]].keyIndex = e.keyIndex;
-      self.keys[e.keyIndex - 1] = self.keys[self.keys.length - 1];
+    if (entry.keyIndex <= self.keys.length) {
+      self.data[self.keys[self.keys.length - 1]].keyIndex = entry.keyIndex;
+      self.keys[entry.keyIndex - 1] = self.keys[self.keys.length - 1];
       self.keys.length -= 1;
       delete self.data[key];
       return true;
@@ -47,7 +47,8 @@ library IterableMap {
   }
 
   function contains(AddressUInt storage self, address key) internal constant returns(bool exists) {
-    return self.data[key].keyIndex > 0;
+    Entry storage entry = self.data[key];
+    return entry.keyIndex > 0;
   }
 
   function size(AddressUInt storage self) internal constant returns(uint) {
@@ -55,7 +56,8 @@ library IterableMap {
   }
 
   function get(AddressUInt storage self, address key) internal constant returns(uint) {
-    return self.data[key].value;
+    Entry storage entry = self.data[key];
+    return entry.value;
   }
 
   function getKeyByIndex(AddressUInt storage self, uint idx) internal constant returns(address) {
@@ -63,6 +65,8 @@ library IterableMap {
   }
 
   function getValueByIndex(AddressUInt storage self, uint idx) internal constant returns(uint) {
-    return self.data[self.keys[idx]].value;
+    address key = self.keys[idx];
+    Entry storage entry = self.data[key];
+    return entry.value;
   }
 }

@@ -19,14 +19,6 @@ contract SubscriptionContract {
   mapping(address => IterableMap.AddressUInt) private subscriptionTable;
 
   /*
-   *  Modifiers
-   */
-  modifier subscribed(address caller, address receiver) {
-      require(hasSubscribed(caller, receiver));
-      _;
-  }
-
-  /*
    * Public functions
    */
 
@@ -61,9 +53,13 @@ contract SubscriptionContract {
    /// @param caller Address of the caller
    /// @param receiver Address of the receiver
    /// @return Returns address of the caller, address of the receiver and the total number of calls
-  function getSubscription(address caller, address receiver) public subscribed(caller, receiver) view returns(address, address, uint) {
+  function getSubscription(address caller, address receiver) public view returns(address, address, uint) {
+    require(_callerExists(caller));
     IterableMap.AddressUInt storage subscriptions = subscriptionTable[caller];
+    
+    require(subscriptions.contains(receiver));
     uint calls = subscriptions.get(receiver);
+    
     return(caller, receiver, calls);
   }
 
@@ -72,8 +68,20 @@ contract SubscriptionContract {
    /// @param idx Index of the subscription
    /// @return Returns address of the caller, address of the receiver and the total number of calls
   function getSubscriptionByIndex(address caller, uint idx) public view returns(address, address, uint) {
+    require(_callerExists(caller));
     IterableMap.AddressUInt storage subscriptions = subscriptionTable[caller];
+    
+    require(idx < subscriptions.size());
     address receiver = subscriptions.getKeyByIndex(idx);
-    return getSubscription(caller, receiver);
+    uint calls = subscriptions.getValueByIndex(idx);
+    
+    return (caller, receiver, calls);
+  }
+  
+  /*
+   * Internal Functions
+   */
+  function _callerExists(address caller) internal view returns(bool) {
+    return subscriptionTable[caller].size() > 0;
   }
 }

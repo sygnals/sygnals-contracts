@@ -46,9 +46,9 @@ candy maple cake sugar pudding cream honey rich smooth crumble sweet treat
 ```
 
 #### Start your Ethereum Client:
-Tested using [Ganache App](https://github.com/trufflesuite/ganache) or with [Ganache CLI](https://github.com/trufflesuite/ganache-cli)
+Tested using [Ganache App](https://github.com/trufflesuite/ganache) and with [Ganache CLI](https://github.com/trufflesuite/ganache-cli)
 
-via Ganache CLI (Not yet tried but this will work):
+via Ganache CLI:
 ```
 ganache-cli --mnemonic "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat"
 ```

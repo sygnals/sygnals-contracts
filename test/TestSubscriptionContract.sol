@@ -3,6 +3,7 @@ pragma solidity ^0.4.18;
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
 import "../contracts/SubscriptionContract.sol";
+import "./ThrowProxy.sol";
 
 contract TestSubscriptionContract {
 
@@ -54,38 +55,44 @@ contract TestSubscriptionContract {
   }
 
   function testGetSubscription() public {
-    address callerR;
-    address receiverR;
-    uint callsR;
-
-    (callerR, receiverR, callsR) = subscriptionContract.getSubscription(caller, receiver1);
-    Assert.isZero(callerR, "Subscription caller should be zero at not subscribed receiver");
-    Assert.isZero(receiverR, "Subscription receiver should be zero at not subscribed receiver");
-    Assert.isZero(callsR, "Subscription calls should be zero at not subscribed receiver");
+    ThrowProxy throwProxy = new ThrowProxy(address(subscriptionContract));
+    bool threw;
+    
+    SubscriptionContract(address(throwProxy)).getSubscription(caller, receiver1);
+    threw = throwProxy.execute.gas(200000)();
+    Assert.isFalse(threw, "Should be false, as it should throw");
 
     subscriptionContract.addSubscription(caller, receiver1, uint(2));
+    
+    SubscriptionContract(address(throwProxy)).getSubscription(caller, receiver2);
+    threw = throwProxy.execute.gas(200000)();
+    Assert.isFalse(threw, "Should be false, as it should throw");
+    
     subscriptionContract.addSubscription(caller, receiver2, uint(6));
 
-    (callerR, receiverR, callsR) = subscriptionContract.getSubscription(caller, receiver2);
+    var (callerR, receiverR, callsR) = subscriptionContract.getSubscription(caller, receiver2);
     Assert.equal(callerR, caller, "Subscription caller should be equal to caller");
     Assert.equal(receiverR, receiver2, "Subscription receiver should be equal to receiver2");
     Assert.equal(callsR, uint(6), "Subscription calls should be equal uint(6)");
   }
 
   function testGetSubscriptionByIndex() public {
-    address callerR;
-    address receiverR;
-    uint callsR;
-
-    (callerR, receiverR, callsR) = subscriptionContract.getSubscriptionByIndex(caller, 0);
-    Assert.isZero(callerR, "Subscription caller should be zero at unknown index");
-    Assert.isZero(receiverR, "Subscription receiver should be zero at unknown index");
-    Assert.isZero(callsR, "Subscription calls should be zero at unknown index");
+    ThrowProxy throwProxy = new ThrowProxy(address(subscriptionContract));
+    bool threw;
+    
+    SubscriptionContract(address(throwProxy)).getSubscriptionByIndex(caller, 0);
+    threw = throwProxy.execute.gas(200000)();
+    Assert.isFalse(threw, "Should be false, as it should throw");
 
     subscriptionContract.addSubscription(caller, receiver1, uint(2));
+    
+    SubscriptionContract(address(throwProxy)).getSubscriptionByIndex(caller, 1);
+    threw = throwProxy.execute.gas(200000)();
+    Assert.isFalse(threw, "Should be false, as it should throw");
+    
     subscriptionContract.addSubscription(caller, receiver2, uint(6));
 
-    (callerR, receiverR, callsR) = subscriptionContract.getSubscriptionByIndex(caller, 1);
+    var (callerR, receiverR, callsR) = subscriptionContract.getSubscriptionByIndex(caller, 1);
     Assert.equal(callerR, caller, "Subscription caller should be equal to caller");
     Assert.equal(receiverR, receiver2, "Subscription receiver should be equal to receiver2");
     Assert.equal(callsR, uint(6), "Subscription calls should be equal uint(6)");
