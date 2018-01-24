@@ -3,6 +3,9 @@ Syg Smart Contracts
 
 Collection of smart contracts for Syg signalling platform.
 
+[![Codeship](https://img.shields.io/codeship/b1ae13e0-e322-0135-57dc-5e586c006d0a/master.svg?style=flat-square)](https://app.codeship.com/projects/268383)
+[![Codecov](https://img.shields.io/codecov/c/github/sygplatform/syg-contracts/master.svg?style=flat-square)](https://codecov.io/gh/sygplatform/syg-contracts)
+
 ## Requirements
 
 - [Truffle v4.0.5](https://github.com/trufflesuite/truffle) (Solidity v0.4.18)
@@ -40,24 +43,19 @@ truffle migrate --reset
 
 ## Tests
 
-Test mnemonic (Test files contain hard-coded addresses to test):
-```
-candy maple cake sugar pudding cream honey rich smooth crumble sweet treat
-```
+Tested using [Ganache CLI](https://github.com/trufflesuite/ganache-cli)
 
-#### Start your Ethereum Client:
-Tested using [Ganache App](https://github.com/trufflesuite/ganache) and with [Ganache CLI](https://github.com/trufflesuite/ganache-cli)
-
-via Ganache CLI:
 ```
-ganache-cli --mnemonic "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat"
-```
-
-#### Run Tests
-In a separate terminal:
-```
+npm install -g ganache-cli
 truffle test
 ```
+
+## Coverage
+
+```
+truffle coverage
+```
+
 ## License
 
 All smart contracts are released under GPL v.3.

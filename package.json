@@ -5,7 +5,7 @@
   "author": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/run-with-testrpc --port 8545 'truffle test'",
+    "test": "./node_modules/.bin/run-with-testrpc --port 8545 --testrpc-cmd ganache-cli --mnemonic 'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat' 'truffle test'",
     "coverage": "SOLIDITY_COVERAGE=true ./node_modules/.bin/solidity-coverage && ./node_modules/.bin/codecov --token=8380c573-5cc4-43fd-94d4-8941c060b302 && fuser -k -n tcp 8545"
   },
   "license": "ISC",
