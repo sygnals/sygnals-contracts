@@ -1,11 +1,16 @@
 {
   "name": "syg-contracts",
   "version": "1.0.0",
-  "description": "",
+  "description": "Smart contracts for Syg signalling platform.",
+  "author": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "truffle test",
+    "coverage": "fuser -k -n tcp 8545 && SOLIDITY_COVERAGE=true ./node_modules/.bin/solidity-coverage && ./node_modules/.bin/codecov --token=8380c573-5cc4-43fd-94d4-8941c060b302"
   },
-  "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "codecov": "^3.0.0",
+    "solidity-coverage": "^0.4.9"
+  }
 }
