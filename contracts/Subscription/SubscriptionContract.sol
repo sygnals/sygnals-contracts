@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-import "./library/IterableMap.sol";
+import "./IterableAddressMap.sol";
 
 /**
  * @title SubscriptionContract - Allows traders(receivers) to subscribe to technical analysts(callers) calls.\
@@ -8,16 +8,16 @@ import "./library/IterableMap.sol";
  */
 contract SubscriptionContract {
 
-  using IterableMap for IterableMap.AddressUInt;
+  using IterableAddressMap for IterableAddressMap.AddressUInt;
 
   //Events
   event Subscription(address indexed caller, address indexed receiver, uint indexed calls);
 
   //Storage
-  mapping(address => IterableMap.AddressUInt) private subscriptionTable;
+  mapping(address => IterableAddressMap.AddressUInt) private subscriptionTable;
 
   //Public Functions
-  
+
   /**
    * @notice Allows `receiver` to subscribe to a `caller` for a number of `calls`.
    * @dev Current function replaces the number of calls if the receiver is already exists.
@@ -27,7 +27,7 @@ contract SubscriptionContract {
    * @param calls Number of subscription calls
    */
   function addSubscription(address caller, address receiver, uint calls) public {
-    IterableMap.AddressUInt storage subscriptions = subscriptionTable[caller];
+    IterableAddressMap.AddressUInt storage subscriptions = subscriptionTable[caller];
     subscriptions.insert(receiver, calls);
     Subscription(caller, receiver, calls);
   }
@@ -39,7 +39,7 @@ contract SubscriptionContract {
     * @return Returns the total number of subscribers
     */
   function countSubscriptions(address caller) public view returns (uint) {
-    IterableMap.AddressUInt storage subscriptions = subscriptionTable[caller];
+    IterableAddressMap.AddressUInt storage subscriptions = subscriptionTable[caller];
     return subscriptions.size();
   }
 
@@ -50,7 +50,7 @@ contract SubscriptionContract {
    * @return Returns whether the `receiver` has subscribed to `caller`
    */
   function hasSubscribed(address caller, address receiver) public view returns(bool) {
-    IterableMap.AddressUInt storage subscriptions = subscriptionTable[caller];
+    IterableAddressMap.AddressUInt storage subscriptions = subscriptionTable[caller];
     return subscriptions.contains(receiver);
   }
 
@@ -62,11 +62,11 @@ contract SubscriptionContract {
    */
   function getSubscription(address caller, address receiver) public view returns(address, address, uint) {
     require(_callerExists(caller));
-    IterableMap.AddressUInt storage subscriptions = subscriptionTable[caller];
-    
+    IterableAddressMap.AddressUInt storage subscriptions = subscriptionTable[caller];
+
     require(subscriptions.contains(receiver));
     uint calls = subscriptions.get(receiver);
-    
+
     return(caller, receiver, calls);
   }
 
@@ -79,15 +79,15 @@ contract SubscriptionContract {
    */
   function getSubscriptionByIndex(address caller, uint idx) public view returns(address, address, uint) {
     require(_callerExists(caller));
-    IterableMap.AddressUInt storage subscriptions = subscriptionTable[caller];
-    
+    IterableAddressMap.AddressUInt storage subscriptions = subscriptionTable[caller];
+
     require(idx < subscriptions.size());
     address receiver = subscriptions.getKeyByIndex(idx);
     uint calls = subscriptions.getValueByIndex(idx);
-    
+
     return (caller, receiver, calls);
   }
-  
+
    // Internal Functions
   function _callerExists(address caller) internal view returns(bool) {
     return subscriptionTable[caller].size() > 0;

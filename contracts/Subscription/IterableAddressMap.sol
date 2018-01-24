@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-library IterableMap {
+library IterableAddressMap {
 
   struct Entry {
     uint keyIndex;

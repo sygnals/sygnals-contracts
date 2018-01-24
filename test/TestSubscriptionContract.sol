@@ -2,7 +2,7 @@ pragma solidity ^0.4.18;
 
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
-import "../contracts/SubscriptionContract.sol";
+import "../contracts/Subscription/SubscriptionContract.sol";
 import "./ThrowProxy.sol";
 
 contract TestSubscriptionContract {
@@ -57,17 +57,17 @@ contract TestSubscriptionContract {
   function testGetSubscription() public {
     ThrowProxy throwProxy = new ThrowProxy(address(subscriptionContract));
     bool threw;
-    
+
     SubscriptionContract(address(throwProxy)).getSubscription(caller, receiver1);
-    threw = throwProxy.execute.gas(200000)();
+    threw = throwProxy.execute();
     Assert.isFalse(threw, "Should be false, as it should throw");
 
     subscriptionContract.addSubscription(caller, receiver1, uint(2));
-    
+
     SubscriptionContract(address(throwProxy)).getSubscription(caller, receiver2);
-    threw = throwProxy.execute.gas(200000)();
+    threw = throwProxy.execute();
     Assert.isFalse(threw, "Should be false, as it should throw");
-    
+
     subscriptionContract.addSubscription(caller, receiver2, uint(6));
 
     var (callerR, receiverR, callsR) = subscriptionContract.getSubscription(caller, receiver2);
@@ -79,17 +79,17 @@ contract TestSubscriptionContract {
   function testGetSubscriptionByIndex() public {
     ThrowProxy throwProxy = new ThrowProxy(address(subscriptionContract));
     bool threw;
-    
+
     SubscriptionContract(address(throwProxy)).getSubscriptionByIndex(caller, 0);
     threw = throwProxy.execute.gas(200000)();
     Assert.isFalse(threw, "Should be false, as it should throw");
 
     subscriptionContract.addSubscription(caller, receiver1, uint(2));
-    
+
     SubscriptionContract(address(throwProxy)).getSubscriptionByIndex(caller, 1);
     threw = throwProxy.execute.gas(200000)();
     Assert.isFalse(threw, "Should be false, as it should throw");
-    
+
     subscriptionContract.addSubscription(caller, receiver2, uint(6));
 
     var (callerR, receiverR, callsR) = subscriptionContract.getSubscriptionByIndex(caller, 1);
