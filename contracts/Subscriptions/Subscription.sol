@@ -3,9 +3,9 @@ pragma solidity ^0.4.18;
 contract Subscription {
 
   /* Storage */
-  address private subscriber;
-  address private analyst;
-  uint8 private calls;
+  address public subscriber;
+  address public analyst;
+  uint8 public calls;
 
   /* Public Functions */
 
