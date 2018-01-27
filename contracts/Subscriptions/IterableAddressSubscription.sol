@@ -1,18 +1,23 @@
 pragma solidity ^0.4.18;
 
-library IterableAddressMap {
+import "./Subscription.sol";
 
+library IterableAddressSubscription {
+    
+  /* Storage */
+  
   struct Entry {
     uint keyIndex;
-    uint value;
+    Subscription value;
   }
 
-  struct AddressUInt {
+  struct AddressSubscription {
     mapping(address => Entry) data;
     address[] keys;
   }
-
-  function insert(AddressUInt storage self, address key, uint value) internal returns(bool replaced) {
+  
+  /* Internal Functions */
+  function insert(AddressSubscription storage self, address key, Subscription value) internal returns(bool replaced) {
     Entry storage entry = self.data[key];
     entry.value = value;
     if (entry.keyIndex > 0) {
@@ -24,7 +29,7 @@ library IterableAddressMap {
     return false;
   }
 
-  function remove(AddressUInt storage self, address key) internal returns(bool success) {
+  function remove(AddressSubscription storage self, address key) internal returns(bool success) {
     Entry storage entry = self.data[key];
     if (entry.keyIndex == 0)
       return false;
@@ -38,7 +43,7 @@ library IterableAddressMap {
     }
   }
 
-  function destroy(AddressUInt storage self) internal {
+  function destroy(AddressSubscription storage self) internal {
     for (uint i; i < self.keys.length; i++) {
       delete self.data[self.keys[i]];
     }
@@ -46,25 +51,25 @@ library IterableAddressMap {
     return;
   }
 
-  function contains(AddressUInt storage self, address key) internal constant returns(bool exists) {
+  function contains(AddressSubscription storage self, address key) internal constant returns(bool exists) {
     Entry storage entry = self.data[key];
     return entry.keyIndex > 0;
   }
 
-  function size(AddressUInt storage self) internal constant returns(uint) {
+  function size(AddressSubscription storage self) internal constant returns(uint) {
     return self.keys.length;
   }
 
-  function get(AddressUInt storage self, address key) internal constant returns(uint) {
+  function get(AddressSubscription storage self, address key) internal constant returns(Subscription) {
     Entry storage entry = self.data[key];
     return entry.value;
   }
 
-  function getKeyByIndex(AddressUInt storage self, uint idx) internal constant returns(address) {
+  function getKeyByIndex(AddressSubscription storage self, uint idx) internal constant returns(address) {
     return self.keys[idx];
   }
 
-  function getValueByIndex(AddressUInt storage self, uint idx) internal constant returns(uint) {
+  function getValueByIndex(AddressSubscription storage self, uint idx) internal constant returns(Subscription) {
     address key = self.keys[idx];
     Entry storage entry = self.data[key];
     return entry.value;
