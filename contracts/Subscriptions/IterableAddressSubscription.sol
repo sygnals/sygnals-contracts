@@ -3,9 +3,9 @@ pragma solidity ^0.4.18;
 import "./Subscription.sol";
 
 library IterableAddressSubscription {
-    
+
   /* Storage */
-  
+
   struct Entry {
     uint keyIndex;
     Subscription value;
@@ -15,7 +15,7 @@ library IterableAddressSubscription {
     mapping(address => Entry) data;
     address[] keys;
   }
-  
+
   /* Internal Functions */
   function insert(AddressSubscription storage self, address key, Subscription value) internal returns(bool replaced) {
     Entry storage entry = self.data[key];
