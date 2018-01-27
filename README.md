@@ -43,17 +43,14 @@ truffle migrate --reset
 
 ## Tests
 
-Tested using [Ganache CLI](https://github.com/trufflesuite/ganache-cli)
-
 ```
-npm install -g ganache-cli
-truffle test
+npm run test
 ```
 
 ## Coverage
 
 ```
-truffle coverage
+npm run converage
 ```
 
 ## License
