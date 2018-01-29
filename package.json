@@ -13,6 +13,7 @@
   "devDependencies": {
     "codecov": "^3.0.0",
     "run-with-testrpc": "^0.3.0",
-    "solidity-coverage": "^0.4.9"
+    "solidity-coverage": "^0.4.9",
+    "web3": "^1.0.0-beta.29"
   }
 }
