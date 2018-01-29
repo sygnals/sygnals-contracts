@@ -21,15 +21,15 @@ contract('SubscriptionRegistry', function(accounts) {
     });
 
     var log = utils.getEventLogs(transaction, 'LogSubscription')[0];
-    assert.equal(subscriber1, log.args.requester, subscriber1 + " should be the requester");
-    assert.equal(subscriber1, log.args.subscriber, subscriber1 + " should also be the subscriber");
-    assert.equal(analyst, log.args.analyst, analyst + " should be the analyst");
-    assert.equal(5, log.args.calls, "calls should be 5");
+    assert.equal(log.args.requester, subscriber1, subscriber1 + " should be the requester");
+    assert.equal(log.args.subscriber, subscriber1, subscriber1 + " should also be the subscriber");
+    assert.equal(log.args.analyst, analyst, analyst + " should be the analyst");
+    assert.equal(log.args.calls, 5, "calls should be 5");
 
     count = await subscriptionRegistry.countSubscriptions({
       from: analyst
     });
-    assert.equal(1, count, "subscription count should be 1");
+    assert.equal(count, 1, "subscription count should be 1");
   });
 
   it("should not subscribe: self subscription", async () => {
@@ -62,14 +62,14 @@ contract('SubscriptionRegistry', function(accounts) {
     count = await subscriptionRegistry.countSubscriptions({
       from: analyst
     });
-    assert.equal(1, count, "subscription count should be 1");
+    assert.equal(count, 1, "subscription count should be 1");
   });
 
   it("should count subscriptions: no analyst data", async () => {
     count = await subscriptionRegistry.countSubscriptions({
       from: analyst
     });
-    assert.equal(0, count, "subscription count should be 0");
+    assert.equal(count, 0, "subscription count should be 0");
   });
 
   /** getSubscriberByIndex() **/
@@ -86,7 +86,7 @@ contract('SubscriptionRegistry', function(accounts) {
     });
 
     var log = utils.getEventLogs(transaction, 'LogSubscription')[0];
-    assert.equal(subscriber, log.args.subscriber, subscriber + " should be the subscriber");
+    assert.equal(log.args.subscriber, subscriber, subscriber + " should be the subscriber");
     assert.equal(subscriber, subscriber2, subscriber + " should be " + subscriber2);
   });
 
@@ -143,12 +143,12 @@ contract('SubscriptionRegistry', function(accounts) {
     });
 
     var log = utils.getEventLogs(transaction, 'LogSubscription')[0];
-    assert.equal(subscription, log.args.subscription, subscription + " should be contract address");
+    assert.equal(log.args.subscription, subscription, subscription + " should be contract address");
   });
 
   it("should not get subscription by index: no analyst data", async () => {
     try {
-      transaction = await subscriptionRegistry.getSubscriptionByIndex(1, {
+      await subscriptionRegistry.getSubscriptionByIndex(1, {
         from: analyst
       });
       throw new Error("Should revert!");
@@ -162,7 +162,7 @@ contract('SubscriptionRegistry', function(accounts) {
       from: subscriber1
     });
     try {
-      transaction = await subscriptionRegistry.getSubscriptionByIndex(1, {
+      await subscriptionRegistry.getSubscriptionByIndex(1, {
         from: analyst
       });
       throw new Error("Should revert!");
@@ -176,7 +176,7 @@ contract('SubscriptionRegistry', function(accounts) {
       from: subscriber1
     });
     try {
-      transaction = await subscriptionRegistry.getSubscriptionByIndex(-1, {
+      await subscriptionRegistry.getSubscriptionByIndex(-1, {
         from: analyst
       });
       throw new Error("Should revert!");
@@ -196,12 +196,12 @@ contract('SubscriptionRegistry', function(accounts) {
     });
 
     var log = utils.getEventLogs(transaction, 'LogSubscription')[0];
-    assert.equal(subscription, log.args.subscription, subscription + " should be contract address");
+    assert.equal(log.args.subscription, subscription, subscription + " should be contract address");
   });
 
   it("should not get subscription by address: no analyst data", async () => {
     try {
-      transaction = await subscriptionRegistry.getSubscriptionByAddress(subscriber2, {
+      await subscriptionRegistry.getSubscriptionByAddress(subscriber2, {
         from: analyst
       });
       throw new Error("Should revert!");
@@ -215,7 +215,7 @@ contract('SubscriptionRegistry', function(accounts) {
       from: subscriber1
     });
     try {
-      transaction = await subscriptionRegistry.getSubscriptionByAddress(subscriber2, {
+      await subscriptionRegistry.getSubscriptionByAddress(subscriber2, {
         from: analyst
       });
       throw new Error("Should revert!");
@@ -235,12 +235,12 @@ contract('SubscriptionRegistry', function(accounts) {
     });
 
     var log = utils.getEventLogs(transaction, 'LogSubscription')[0];
-    assert.equal(subscription, log.args.subscription, subscription + " should be contract address");
+    assert.equal(log.args.subscription, subscription, subscription + " should be contract address");
   });
 
   it("should not get subscription from address: no analyst data", async () => {
     try {
-      transaction = await subscriptionRegistry.getSubscriptionFromAddress(analyst, {
+      await subscriptionRegistry.getSubscriptionFromAddress(analyst, {
         from: subscriber2
       });
       throw new Error("Should revert!");
@@ -254,7 +254,7 @@ contract('SubscriptionRegistry', function(accounts) {
       from: subscriber1
     });
     try {
-      transaction = await subscriptionRegistry.getSubscriptionFromAddress(subscriber2, {
+      await subscriptionRegistry.getSubscriptionFromAddress(subscriber2, {
         from: subscriber1
       });
       throw new Error("Should revert!");
@@ -273,15 +273,15 @@ contract('SubscriptionRegistry', function(accounts) {
     });
 
     var log = utils.getEventLogs(transaction, 'LogUnsubscription')[0];
-    assert.equal(subscriber1, log.args.requester, subscriber1 + " should be the requester");
-    assert.equal(subscriber1, log.args.subscriber, subscriber1 + " should also be the subscriber");
-    assert.equal(analyst, log.args.analyst, analyst + " should be the analyst");
-    assert.equal(5, log.args.calls, "calls should be 5");
+    assert.equal(log.args.requester, subscriber1, subscriber1 + " should be the requester");
+    assert.equal(log.args.subscriber, subscriber1, subscriber1 + " should also be the subscriber");
+    assert.equal(log.args.analyst, analyst, analyst + " should be the analyst");
+    assert.equal(log.args.calls, 5, "calls should be 5");
 
     count = await subscriptionRegistry.countSubscriptions({
       from: analyst
     });
-    assert.equal(0, count, "subscription count should be 0");
+    assert.equal(count, 0, "subscription count should be 0");
   });
 
   it("should not subscribe: no analyst data", async () => {
