@@ -8,17 +8,11 @@
 * Reference issues and pull requests liberally after the first line
 * When only changing documentation, include `[ci skip]` in the commit title
 * Consider starting the commit message with an applicable emoji:
-    * :art: `:art:` when improving the format/structure of the code
+    * :mag: `:mag:` when refactoring or improving the format
     * :zap: `:zap:` when improving performance
-    * :sweat_drops: `:sweat_drops:` when plugging memory leaks
     * :memo: `:memo:` when writing docs
-    * :penguin: `:penguin:` when fixing something on Linux
-    * :apple: `:apple:` when fixing something on macOS
-    * :checkered_flag: `:checkered_flag:` when fixing something on Windows
-    * :bug: `:bug:` when fixing a bug
     * :fire: `:fire:` when removing code or files
-    * :hammer: `:hammer:` when rewriting large part of the source
-    * :green_heart: `:green_heart:` when fixing the CI build
+    * :wrench: `:wrench:` when fixing something
     * :bulb: `:bulb:` when adding tests
     * :lock: `:lock:` when dealing with security
     * :arrow_up: `:arrow_up:` when upgrading dependencies
