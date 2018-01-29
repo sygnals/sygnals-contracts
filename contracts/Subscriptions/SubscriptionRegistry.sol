@@ -4,6 +4,7 @@ import "./IterableAddressSubscription.sol";
 
 /**
  * @title SubscriptionRegistry - Allows traders to subscribe to technical analysts calls.
+ * @dev Add analyst function to quit and issue refund to analyst's subscribers
  * @author Norf Lipsum - <norf@sygplatform.io>
  */
 contract SubscriptionRegistry {
@@ -124,6 +125,7 @@ contract SubscriptionRegistry {
   /**
    * @notice Allows the subscriber(msg.sender) to unsubscribe to `analyst`.
    * @dev Subscription fee calculations to be added when Syg Token is finished.
+   * @dev Destroy subscription contract upon removal?
    * @param analyst The address of the analyst
    * @return Returns boolean result
    */
