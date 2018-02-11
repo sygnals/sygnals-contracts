@@ -14,6 +14,6 @@ module.exports = function(deployer) {
 
   deployer.deploy(SubscriptionRegistry);
 
-  deployer.deploy(SygToken);
+  deployer.deploy(SygToken, 100000000, 'SYG', 18, 'SYG');
 
 };
