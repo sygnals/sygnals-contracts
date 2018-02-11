@@ -3,8 +3,10 @@ Syg Smart Contracts
 
 Collection of smart contracts for Syg signalling platform.
 
-[![Codeship](https://img.shields.io/codeship/b1ae13e0-e322-0135-57dc-5e586c006d0a/master.svg?style=flat-square)](https://app.codeship.com/projects/268383)
-[![Codecov](https://img.shields.io/codecov/c/github/sygplatform/syg-contracts/master.svg?style=flat-square)](https://codecov.io/gh/sygplatform/syg-contracts)
+| Branch | Status |
+| ------------- | -------------
+| master | [![Codeship](https://img.shields.io/codeship/b1ae13e0-e322-0135-57dc-5e586c006d0a/master.svg?style=flat-square)](https://app.codeship.com/projects/268383) [![Codecov](https://img.shields.io/codecov/c/github/sygplatform/syg-contracts/master.svg?style=flat-square)](https://codecov.io/gh/sygplatform/syg-contracts)
+| dev | [![Codeship](https://img.shields.io/codeship/b1ae13e0-e322-0135-57dc-5e586c006d0a/dev.svg?style=flat-square)](https://app.codeship.com/projects/268383)  [![Codecov](https://img.shields.io/codecov/c/github/sygplatform/syg-contracts/dev.svg?style=flat-square)](https://codecov.io/gh/sygplatform/syg-contracts)
 
 ## Requirements
 
