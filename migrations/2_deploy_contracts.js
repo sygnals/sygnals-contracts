@@ -12,8 +12,8 @@ module.exports = function(deployer) {
   deployer.deploy(IterableHashSignal);
   deployer.link(IterableHashSignal, [ SignalRegistry ]);
 
-  deployer.deploy(SubscriptionRegistry, 100000000, 'SYG', 18, 'SYG');
+  deployer.deploy(SubscriptionRegistry);
 
-  deployer.deploy(SygToken);
+  deployer.deploy(SygToken, 100000000, 'SYG', 18, 'SYG');
 
 };
