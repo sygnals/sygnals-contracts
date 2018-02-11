@@ -12,7 +12,7 @@ module.exports = function(deployer) {
   deployer.deploy(IterableHashSignal);
   deployer.link(IterableHashSignal, [ SignalRegistry ]);
 
-  deployer.deploy(SubscriptionRegistry);
+  deployer.deploy(SubscriptionRegistry, 100000000, 'SYG', 18, 'SYG');
 
   deployer.deploy(SygToken);
 
