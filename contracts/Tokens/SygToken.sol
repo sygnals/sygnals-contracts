@@ -1,8 +1,10 @@
 pragma solidity ^ 0.4.18;
 
 import "./StandardToken.sol";
+import "./BurnableToken.sol";
+import "./MintableToken.sol";
 
-contract SygToken is StandardToken {
+contract SygToken is StandardToken, BurnableToken, MintableToken {
 
     /* Fallback Functions */
 
